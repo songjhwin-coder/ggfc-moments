@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <link id="flatpickr-theme" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -27,7 +27,21 @@
             --accent: #ffd700;
             --danger: #ef4444;
             --container-width: 1000px;
-            --header-height-pc: 60px; /* PC 헤더 높이 변수 */
+            --header-height-pc: 60px;
+            --border-color: #333;
+            --hover-bg: #252525;
+        }
+
+        /* 라이트 모드 변수 덮어쓰기 */
+        body.light-mode {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-sub: #4b5563;
+            --primary: #2563eb;
+            --accent: #f59e0b;
+            --border-color: #d1d5db;
+            --hover-bg: #f9fafb;
         }
 
         body { 
@@ -36,31 +50,33 @@
             margin: 0; padding: 0; 
             color: var(--text-main); 
             user-select: none;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
-        ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 3px; }
 
         .container { 
             max-width: var(--container-width); 
             margin: 0 auto; 
             min-height: 100vh; 
-            padding: 0 15px 15px 15px; /* 상단 패딩 제거 (헤더 고정 때문) */
+            padding: 0 15px 15px 15px;
             box-sizing: border-box;
+            padding-bottom: 80px;
         }
 
-        /* === 2. 헤더 (PC 메뉴바 고정 적용) === */
+        /* === 2. 헤더 === */
         .pc-header {
             display: none; justify-content: space-between; align-items: center;
             padding: 0; height: var(--header-height-pc); 
-            border-bottom: 1px solid #333;
-            /* [수정 1] 메뉴바 고정 설정 */
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 1000;
             background-color: var(--bg-color);
             margin-bottom: 20px;
+            transition: background-color 0.3s, border-color 0.3s;
         }
         .logo { font-size: 18px; font-weight: 900; cursor: pointer; color: var(--text-main); }
         .logo span { color: var(--primary); margin-left:5px; }
@@ -86,8 +102,8 @@
             background-position: center;
             border-radius: 12px; margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid #333;
-            margin-top: 15px; /* 헤더 고정 시 겹침 방지 여백 */
+            border: 1px solid var(--border-color);
+            margin-top: 15px; 
         }
         .home-hero h1 { font-size: 28px; margin: 0 0 10px 0; font-weight: 900; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         .home-hero p { color: #f0f0f0; margin: 0; font-size: 15px; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
@@ -99,6 +115,9 @@
             padding: 12px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.6);
             color: white; font-size: 14px; flex:1; backdrop-filter: blur(5px);
         }
+        body.light-mode .home-search-box input {
+            background: rgba(255,255,255,0.9); color: black; border: 1px solid #ccc; text-shadow: none;
+        }
         .home-search-box button {
             width: 45px; height: 45px; border-radius: 50%; background: var(--primary); border: none;
             color: white; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
@@ -106,41 +125,42 @@
 
         .menu-grid { display: grid; grid-template-columns: 1fr; gap: 10px; max-width: 500px; margin: 0 auto; }
         .menu-btn { 
-            background: var(--card-bg); border: 1px solid #333; padding: 15px; border-radius: 10px; 
+            background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px; border-radius: 10px; 
             color: var(--text-main); font-size: 15px; font-weight: bold; cursor: pointer; 
             display: flex; align-items: center; justify-content: space-between;
         }
-        .menu-btn:hover { background: #252525; border-color: var(--primary); }
+        .menu-btn:hover { background: var(--hover-bg); border-color: var(--primary); }
 
-        /* === 4. Sticky Wrapper (필터, 탭 등 2차 고정) === */
-        /* [수정 1] 메뉴바 아래에 붙도록 설정 */
+        /* === 4. Sticky Wrapper (필터, 탭 등) === */
         .sticky-top-area {
             position: sticky;
-            top: 0; /* 모바일에서는 최상단 */
+            top: 0; 
             z-index: 900;
             background-color: var(--bg-color);
             padding-bottom: 5px;
-            padding-top: 15px; /* 상단 여백 추가 */
-            border-bottom: 1px solid #222;
+            padding-top: 15px; 
+            border-bottom: 1px solid var(--border-color);
             margin-bottom: 10px;
+            transition: background-color 0.3s;
         }
 
         .category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 15px; scrollbar-width: none; }
         .category-tabs::-webkit-scrollbar { display: none; }
         .tab-btn {
             white-space: nowrap; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold;
-            background: #2a2a2a; color: #888; border: 1px solid #333; cursor: pointer; transition: 0.2s;
+            background: var(--hover-bg); color: var(--text-sub); border: 1px solid var(--border-color); cursor: pointer; transition: 0.2s;
         }
-        .tab-btn:hover { color: white; background: #333; }
+        .tab-btn:hover { color: var(--primary); border-color: var(--primary); }
         .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         .gallery-tools { margin-bottom: 10px; display: flex; flex-direction: column; gap: 10px; }
         .gallery-search-bar { display: flex; gap: 8px; }
-        .gallery-search-bar input { flex: 1; padding: 8px 12px; background: var(--card-bg); border: 1px solid #444; color: white; border-radius: 8px; font-size: 13px; }
+        .gallery-search-bar input { flex: 1; padding: 8px 12px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 13px; }
         .gallery-search-bar button { padding: 0 15px; background: #333; color: white; border-radius: 8px; border: 1px solid #444; cursor: pointer; }
+        body.light-mode .gallery-search-bar button { background: #9ca3af; border-color: #9ca3af; }
 
         .filter-box {
-            display: none; background: #252525; padding: 15px; border-radius: 8px; border: 1px solid #444;
+            display: none; background: var(--hover-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);
             align-items: center; gap: 10px; flex-wrap: wrap;
         }
         .filter-box.show { display: flex; }
@@ -149,35 +169,35 @@
             display: none; background: #2c0b0e; padding: 12px; border-radius: 8px; border: 1px solid var(--danger);
             align-items: center; justify-content: space-between; margin-bottom: 15px;
         }
+        body.light-mode .admin-toolbar { background: #fef2f2; }
         .admin-toolbar.show { display: flex; }
-        .admin-select-all { display: flex; align-items: center; gap: 8px; color: #ffcccc; font-size: 14px; cursor: pointer; }
+        .admin-select-all { display: flex; align-items: center; gap: 8px; color: var(--danger); font-size: 14px; cursor: pointer; font-weight: bold;}
         .admin-delete-btn {
             background: var(--danger); color: white; border: none; padding: 8px 16px; border-radius: 6px; 
             font-weight: bold; cursor: pointer; font-size: 13px;
         }
 
         input.calendar-input {
-            background: #121212; border: 1px solid #555; color: white; padding: 8px; border-radius: 6px; font-family: inherit; cursor: pointer;
+            background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px; border-radius: 6px; font-family: inherit; cursor: pointer;
             width: 140px; text-align: center;
         }
         .filter-toggle-btn {
-            font-size: 11px; background: none; border: 1px solid #444; color: #888; padding: 4px 10px; border-radius: 4px; cursor: pointer; margin-left: auto;
+            font-size: 11px; background: none; border: 1px solid var(--border-color); color: var(--text-sub); padding: 4px 10px; border-radius: 4px; cursor: pointer; margin-left: auto;
         }
         .filter-toggle-btn.active { color: var(--primary); border-color: var(--primary); }
 
-        /* === 5. 리스트 뷰 & 카드 (Slim Design 적용) === */
+        /* === 5. 리스트 뷰 & 카드 === */
         .video-list-container { display: flex; flex-direction: column; gap: 8px; }
         
         .list-item { 
             background: var(--card-bg); border-radius: 8px; 
-            /* [수정 2] 패딩 축소 및 높이 슬림화 */
             padding: 8px 12px; 
-            border: 1px solid #333; display: flex; align-items: center; justify-content: space-between;
+            border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;
             transition: 0.2s; gap: 10px; cursor: pointer; position: relative;
         }
-        .list-item:hover { transform: translateX(3px); border-color: var(--primary); background: #252525; }
-        .list-item.selected { border-color: var(--danger); background: #2c1a1a; }
-        
+        .list-item:hover { transform: translateX(3px); border-color: var(--primary); background: var(--hover-bg); }
+        .list-item.selected { border-color: var(--danger); }
+
         .admin-checkbox-wrapper { display: none; margin-right: 5px; }
         .admin-checkbox-wrapper.show { display: block; }
         .admin-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--danger); }
@@ -190,29 +210,24 @@
         
         .list-sub { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #888; flex-wrap: wrap; }
         .protagonist { color: var(--accent); font-weight: 500; }
-        .badge-cat { background: rgba(59,130,246,0.15); color: #93c5fd; padding: 1px 5px; border-radius: 4px; font-size: 10px; }
+        .badge-cat { background: rgba(59,130,246,0.15); color: #3b82f6; padding: 1px 5px; border-radius: 4px; font-size: 10px; }
+        body.light-mode .badge-cat { background: rgba(37,99,235,0.1); color: #2563eb; }
         
-        /* [수정 2] 우측 영역 그룹화 (날짜 + 버튼) */
-        .list-right-group {
-            display: flex; align-items: center; gap: 10px; flex-shrink: 0;
-        }
+        .list-right-group { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 
-        /* [수정 2] 날짜 정보 스타일 변경 (우측 배치용) */
         .date-info-compact { 
             font-size: 10px; color: #666; text-align: right; 
-            display: flex; flex-direction: column; gap: 1px;
-            line-height: 1.2;
+            display: flex; flex-direction: column; gap: 1px; line-height: 1.2;
         }
 
         .like-btn { 
-            background: transparent; border: 1px solid #444; color: #ccc; 
+            background: transparent; border: 1px solid var(--border-color); color: var(--text-sub); 
             padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 500; 
-            display: flex; align-items: center; gap: 4px; transition: 0.2s;
-            height: 28px;
+            display: flex; align-items: center; gap: 4px; transition: 0.2s; height: 28px;
         }
         .like-btn.liked { background: #e0245e; color: white; border-color: #e0245e; }
         
-        .delete-btn-icon { color: #555; cursor: pointer; font-size: 12px; padding: 5px; }
+        .delete-btn-icon { color: #888; cursor: pointer; font-size: 12px; padding: 5px; }
         .delete-btn-icon:hover { color: var(--danger); }
         .delete-btn-icon.admin-active { color: var(--danger); }
 
@@ -224,54 +239,83 @@
         .rank-1 { background: var(--accent); color: black; }
         .rank-2 { background: #c0c0c0; color: black; }
         .rank-3 { background: #cd7f32; color: black; }
+        body.light-mode .list-rank { background: #9ca3af; color: white; }
 
         /* === 랭킹 & 기간 스타일 === */
         .period-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
         .period-card {
-            background: var(--card-bg); border: 1px solid #444; padding: 20px; border-radius: 12px;
-            cursor: pointer; transition: 0.2s; position: relative;
+            background: var(--card-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px;
+            cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; 
         }
         .period-card:hover { border-color: var(--primary); transform: translateY(-3px); }
         .period-title { font-size: 18px; font-weight: bold; margin-bottom: 5px; color: var(--text-main); }
-        .period-date { font-size: 13px; color: #888; display: flex; align-items: center; gap: 5px; }
+        .period-date { font-size: 13px; color: var(--text-sub); display: flex; align-items: center; gap: 5px; }
+        
+        .period-admin-controls {
+            position: absolute; right: 10px; top: 10px; 
+            display: flex; gap: 5px; z-index: 10;
+        }
+        .period-btn-sm { font-size: 11px; padding: 4px 8px; border-radius: 4px; border: none; cursor: pointer; color: white; opacity: 0.9; }
+        .period-btn-sm:hover { opacity: 1; transform: scale(1.05); }
+        .btn-edit { background: #3b82f6; }
+        .btn-del { background: #ef4444; }
+
         .period-add-box {
-            background: #252525; border: 1px dashed #555; padding: 20px; border-radius: 12px;
-            text-align: center; color: #888; cursor: pointer; margin-bottom: 20px;
+            background: var(--hover-bg); border: 1px dashed var(--border-color); padding: 20px; border-radius: 12px;
+            text-align: center; color: var(--text-sub); cursor: pointer; margin-bottom: 20px;
         }
         .period-add-box:hover { color: var(--primary); border-color: var(--primary); }
         
         .create-period-form {
-            display: none; background: #1a1a1a; padding: 20px; border-radius: 12px; border: 1px solid var(--primary);
+            display: none; background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--primary);
             margin-bottom: 20px;
         }
         .create-period-form.show { display: block; animation: fadeIn 0.3s; }
 
         /* 기타 */
-        .input-box { background: var(--card-bg); padding: 20px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #333; }
-        .chart-box { background: var(--card-bg); padding: 20px; border-radius: 12px; max-width: 600px; margin: 0 auto 20px auto; border: 1px solid #333; }
+        .input-box { background: var(--card-bg); padding: 20px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid var(--border-color); }
+        .chart-box { background: var(--card-bg); padding: 20px; border-radius: 12px; max-width: 600px; margin: 0 auto 20px auto; border: 1px solid var(--border-color); }
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 13px; color: #aaa; }
-        input, select { width: 100%; padding: 10px; background: #121212; border: 1px solid #444; border-radius: 6px; color: white; box-sizing: border-box; }
+        label { display: block; margin-bottom: 5px; font-size: 13px; color: var(--text-sub); }
+        input, select { width: 100%; padding: 10px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); box-sizing: border-box; }
         button.action-btn { width: 100%; background: var(--primary); padding: 12px; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; }
 
         .view-section { display: none; }
         .view-section.active { display: block; }
 
-        .nav-bar { display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #333; }
-        .back-btn { background: none; border: none; color: #aaa; font-weight: bold; cursor: pointer; }
-        .page-title { margin-left: auto; color: white; font-weight: bold; }
+        .nav-bar { display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+        .back-btn { background: none; border: none; color: var(--text-sub); font-weight: bold; cursor: pointer; }
+        .page-title { margin-left: auto; color: var(--text-main); font-weight: bold; }
+
+        /* === 화면 분할 (PC 갤러리 뷰 공통) === */
+        .split-container { display: flex; flex-direction: column; gap: 20px; }
+        .split-col { flex: 1; background: var(--card-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .split-col h3 { text-align: center; margin-top: 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); font-size: 16px; }
+
+        /* === 플로팅 버튼 === */
+        .floating-buttons {
+            position: fixed; bottom: 20px; right: 20px;
+            display: flex; flex-direction: column; gap: 12px; z-index: 9999;
+        }
+        .fab {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--primary); color: white;
+            border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; transition: transform 0.2s, background-color 0.2s;
+        }
+        .fab:hover { transform: scale(1.1); background-color: #2563eb; }
+        .fab-back { background: #4b5563; }
+        .fab-back:hover { background: #374151; }
 
         @media (min-width: 768px) {
             .pc-header { display: flex; }
             .nav-bar { display: none; } 
             .menu-grid { grid-template-columns: 1fr 1fr; }
             .period-grid { grid-template-columns: 1fr 1fr; }
+            .split-container { flex-direction: row; }
             .home-hero h1 { font-size: 36px; }
-            
-            /* [수정 1] PC에서는 헤더 높이만큼 아래에 고정 */
-            .sticky-top-area {
-                top: var(--header-height-pc);
-            }
+            .sticky-top-area { top: var(--header-height-pc); }
         }
         @keyframes fadeIn { from{opacity:0; transform:translateY(-10px);} to{opacity:1; transform:translateY(0);} }
     </style>
@@ -285,10 +329,11 @@
         <nav class="pc-nav">
             <button class="pc-nav-btn" onclick="switchView('registerView')">영상 등록</button>
             <button class="pc-nav-btn" onclick="switchView('galleryView')">전체 갤러리</button>
-            <button class="pc-nav-btn" onclick="switchView('periodListView')">기간별 랭킹</button>
+            <button class="pc-nav-btn" onclick="switchView('periodListView')">기간별 갤러리</button>
             <button class="pc-nav-btn" onclick="switchView('bestView')">명예의 전당</button>
             <button class="pc-nav-btn" onclick="switchView('statsView')">통계</button>
             <button class="pc-nav-btn admin-btn-style" id="pcAdminBtn" onclick="toggleAdminMode()">🔒 관리자</button>
+            <button class="pc-nav-btn" id="themeToggleBtnPC" onclick="toggleTheme()" style="color:var(--accent);">☀️ 라이트모드</button>
         </nav>
     </header>
 
@@ -304,16 +349,17 @@
 
         <div class="menu-grid">
             <button class="menu-btn" onclick="switchView('registerView')"><span>📝 영상 등록</span> <span>›</span></button>
-            <button class="menu-btn" onclick="switchView('galleryView')"><span>📺 갤러리</span> <span>›</span></button>
-            <button class="menu-btn" onclick="switchView('periodListView')"><span>🏆 기간별 랭킹</span> <span>›</span></button>
+            <button class="menu-btn" onclick="switchView('galleryView')"><span>📺 전체 갤러리</span> <span>›</span></button>
+            <button class="menu-btn" onclick="switchView('periodListView')"><span>🏆 기간별 갤러리</span> <span>›</span></button>
             <button class="menu-btn" onclick="switchView('bestView')"><span>🏅 명예의 전당</span> <span>›</span></button>
             <button class="menu-btn" onclick="switchView('statsView')"><span>📊 통계</span> <span>›</span></button>
+            <button class="menu-btn" id="themeToggleBtnMobile" onclick="toggleTheme()"><span>☀️ 라이트모드</span> <span>›</span></button>
             <button class="menu-btn" id="mobileAdminBtn" onclick="toggleAdminMode()"><span>🔒 관리자 모드</span> <span>›</span></button>
         </div>
     </div>
 
     <div id="registerView" class="view-section">
-        <div class="nav-bar"><button class="back-btn" onclick="switchView('homeView')">← 홈</button><span class="page-title">등록</span></div>
+        <div class="nav-bar"><button class="back-btn" onclick="goBack()">← 뒤로</button><span class="page-title">등록</span></div>
         <h2 class="highlight-title" style="display:none;" class="pc-only-title">📝 영상 등록</h2>
         <div class="input-box">
             <div class="form-group"><label>1. 등록자 이름</label><input type="text" id="userName" placeholder="예: 김매니저"></div>
@@ -343,8 +389,8 @@
 
     <div id="galleryView" class="view-section">
         <div class="sticky-top-area">
-            <div class="nav-bar"><button class="back-btn" onclick="switchView('homeView')">← 홈</button><span class="page-title">갤러리</span></div>
-            <h2 class="highlight-title">📺 갤러리</h2>
+            <div class="nav-bar"><button class="back-btn" onclick="goBack()">← 뒤로</button><span class="page-title">전체 갤러리</span></div>
+            <h2 class="highlight-title">📺 전체 갤러리</h2>
             <div class="category-tabs" id="categoryTabs"></div>
             <div class="gallery-tools">
                 <div class="gallery-search-bar">
@@ -355,9 +401,9 @@
                     <button class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFilterBox()"><i class="fas fa-filter"></i> 날짜 필터</button>
                 </div>
                 <div class="filter-box" id="filterBox">
-                    <span style="font-size:12px; color:#aaa;">영상 날짜 기준:</span>
+                    <span style="font-size:12px; color:var(--text-sub);">영상 날짜 기준:</span>
                     <input type="text" class="calendar-input" id="filterStartDate" placeholder="시작일" onchange="renderGallery()">
-                    <span style="color:#aaa;">~</span>
+                    <span style="color:var(--text-sub);">~</span>
                     <input type="text" class="calendar-input" id="filterEndDate" placeholder="종료일" onchange="renderGallery()">
                     <button style="background:#444; color:white; border:none; padding:8px 12px; border-radius:6px; font-size:11px; cursor:pointer;" onclick="resetDateFilter()">초기화</button>
                 </div>
@@ -371,14 +417,23 @@
             </div>
         </div>
 
-        <div id="galleryList" class="video-list-container">
-            <p style="text-align: center; color: #666; margin-top: 50px;">로딩 중...</p>
+        <div class="split-container">
+            <div class="split-col">
+                <h3 style="color:var(--accent);"><i class="fas fa-trophy"></i> 카테고리별 랭킹순</h3>
+                <div id="galleryRankingList" class="video-list-container">
+                    <p style="text-align: center; color: #666; margin-top: 50px;">로딩 중...</p>
+                </div>
+            </div>
+            <div class="split-col">
+                <h3 style="color:var(--primary);"><i class="fas fa-clock"></i> 최신 등록순</h3>
+                <div id="galleryRecentList" class="video-list-container"></div>
+            </div>
         </div>
     </div>
 
     <div id="periodListView" class="view-section">
-        <div class="nav-bar"><button class="back-btn" onclick="switchView('homeView')">← 홈</button><span class="page-title">기간별 랭킹</span></div>
-        <h2 class="highlight-title">🏆 기간별 랭킹</h2>
+        <div class="nav-bar"><button class="back-btn" onclick="goBack()">← 뒤로</button><span class="page-title">기간별 갤러리</span></div>
+        <h2 class="highlight-title">🏆 기간별 갤러리</h2>
         
         <div class="period-add-box" onclick="togglePeriodForm()">
             <i class="fas fa-plus-circle"></i> 관리자: 새 기간(시즌) 카드 만들기
@@ -395,6 +450,17 @@
             </div>
         </div>
 
+        <div class="create-period-form" id="editPeriodForm" style="border-color: #f59e0b;">
+            <h3 style="margin-top:0; color:#f59e0b;">기간 정보 수정</h3>
+            <div class="form-group"><label>카드 제목</label><input type="text" id="editPeriodTitle"></div>
+            <div class="form-group"><label>시작 날짜</label><input type="text" class="calendar-input" id="editPeriodStart" style="width:100%;"></div>
+            <div class="form-group"><label>종료 날짜</label><input type="text" class="calendar-input" id="editPeriodEnd" style="width:100%;"></div>
+            <div style="display:flex; gap:10px;">
+                <button class="action-btn" style="background:#f59e0b; color:black;" onclick="submitEditPeriod()">수정 완료</button>
+                <button class="action-btn" style="background:#555;" onclick="closeEditPeriodPopup()">취소</button>
+            </div>
+        </div>
+
         <div id="periodCardList" class="period-grid">
             <p style="text-align: center; color: #666; width:100%;">불러오는 중...</p>
         </div>
@@ -402,16 +468,26 @@
 
     <div id="periodDetailView" class="view-section">
         <div class="sticky-top-area">
-            <div class="nav-bar"><button class="back-btn" onclick="switchView('periodListView')">← 목록</button><span class="page-title">상세 랭킹</span></div>
-            <h2 class="highlight-title" id="periodDetailTitle">상세 랭킹</h2>
-            <p id="periodDetailDate" style="color:#888; margin-bottom:10px; font-size:14px; padding-left:10px;"></p>
+            <div class="nav-bar"><button class="back-btn" onclick="goBack()">← 뒤로</button><span class="page-title">상세 갤러리</span></div>
+            <h2 class="highlight-title" id="periodDetailTitle">상세 갤러리</h2>
+            <p id="periodDetailDate" style="color:var(--text-sub); margin-bottom:10px; font-size:14px; padding-left:10px;"></p>
         </div>
-        <div id="periodVideoList" class="video-list-container"></div>
+        
+        <div class="split-container">
+            <div class="split-col">
+                <h3 style="color:var(--accent);"><i class="fas fa-trophy"></i> 카테고리별 랭킹순 (Top 5)</h3>
+                <div id="periodRankingList" class="video-list-container"></div>
+            </div>
+            <div class="split-col">
+                <h3 style="color:var(--primary);"><i class="fas fa-clock"></i> 최신 등록순</h3>
+                <div id="periodRecentList" class="video-list-container"></div>
+            </div>
+        </div>
     </div>
 
     <div id="bestView" class="view-section">
         <div class="sticky-top-area">
-            <div class="nav-bar"><button class="back-btn" onclick="switchView('homeView')">← 홈</button><span class="page-title">랭킹</span></div>
+            <div class="nav-bar"><button class="back-btn" onclick="goBack()">← 뒤로</button><span class="page-title">랭킹</span></div>
             <h2 class="highlight-title">🏆 명예의 전당 (Top 10)</h2>
         </div>
         <div id="bestList" class="video-list-container">
@@ -420,8 +496,17 @@
     </div>
 
     <div id="statsView" class="view-section">
-        <div class="nav-bar"><button class="back-btn" onclick="switchView('homeView')">← 홈</button><span class="page-title">통계</span></div>
+        <div class="nav-bar"><button class="back-btn" onclick="goBack()">← 뒤로</button><span class="page-title">통계</span></div>
         <h2 class="highlight-title">📊 현황</h2>
+        
+        <div style="background:var(--card-bg); padding:15px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <span style="font-size:13px; color:var(--text-sub);">기간 설정(영상 날짜):</span>
+            <input type="text" class="calendar-input" id="statsStartDate" placeholder="시작일" onchange="loadStatsData()">
+            <span style="color:var(--text-sub);">~</span>
+            <input type="text" class="calendar-input" id="statsEndDate" placeholder="종료일" onchange="loadStatsData()">
+            <button style="background:#444; color:white; border:none; padding:8px 12px; border-radius:6px; font-size:11px; cursor:pointer;" onclick="document.getElementById('statsStartDate').value=''; document.getElementById('statsEndDate').value=''; loadStatsData();">초기화</button>
+        </div>
+
         <div class="chart-box">
             <h3 style="margin-top:0; color:var(--text-main); font-size:16px;">카테고리 비율</h3>
             <div style="height:250px;"><canvas id="categoryChart"></canvas></div>
@@ -433,6 +518,15 @@
         </div>
     </div>
 
+</div>
+
+<div class="floating-buttons">
+    <button class="fab fab-back" id="fabBack" onclick="goBack()" title="이전 화면으로 가기" style="display: none;">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+    <button class="fab" onclick="scrollToTop()" title="맨 위로 가기">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 </div>
 
 <script>
@@ -447,7 +541,6 @@
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const collectionName = "ggfc_links_v2";
-    const settingsCollection = "ggfc_settings";
     const periodCollection = "ggfc_periods";
 
     const getVoterId = () => {
@@ -460,44 +553,67 @@
 
     let galleryUnsubscribe = null, periodUnsubscribe = null, bestUnsubscribe = null;
     let catChartInstance = null, uploaderChartInstance = null;
-    let rawGalleryData = [];
+    let rawGalleryData = []; // 원본 DocumentSnapshot 배열
     let currentFilteredData = []; 
     let currentSearchKeyword = "", currentCategory = "전체";
     let currentPeriodDates = { start: null, end: null };
     
     let isAdminMode = false;
     let selectedVideoIds = new Set();
+    let currentEditingPeriodId = null;
+
+    let viewHistory = ['homeView'];
+    let isLightMode = localStorage.getItem('ggfcTheme') === 'light';
 
     const CATEGORIES = ["전체", "⚽ 골", "🥅 어시스트", "👍 퍼포먼스", "🧤 선방", "🪩 세레머니", "🤝 페어 플레이", "🍯 꿀잼 순간", "기타"];
 
     window.onload = function() {
+        applyTheme();
         renderCategoryTabs();
         loadGalleryData();
         
         flatpickr(".calendar-input", {
             locale: "ko",
-            dateFormat: "Y-m-d",
-            theme: "dark"
+            dateFormat: "Y-m-d"
         });
     };
 
-    function renderCategoryTabs() {
-        const tabContainer = document.getElementById('categoryTabs');
-        let html = '';
-        CATEGORIES.forEach(cat => {
-            const activeClass = cat === currentCategory ? 'active' : '';
-            html += `<button class="tab-btn ${activeClass}" onclick="selectCategory('${cat}')">${cat}</button>`;
-        });
-        tabContainer.innerHTML = html;
+    /* === 테마 관련 함수 === */
+    function applyTheme() {
+        const pcBtn = document.getElementById('themeToggleBtnPC');
+        const moBtn = document.getElementById('themeToggleBtnMobile');
+        const flatpickrTheme = document.getElementById('flatpickr-theme');
+        
+        if (isLightMode) {
+            document.body.classList.add('light-mode');
+            if(pcBtn) pcBtn.innerText = "🌙 다크모드";
+            if(moBtn) moBtn.innerHTML = "<span>🌙 다크모드</span> <span>›</span>";
+            flatpickrTheme.href = "https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/light.css";
+        } else {
+            document.body.classList.remove('light-mode');
+            if(pcBtn) pcBtn.innerText = "☀️ 라이트모드";
+            if(moBtn) moBtn.innerHTML = "<span>☀️ 라이트모드</span> <span>›</span>";
+            flatpickrTheme.href = "https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css";
+        }
     }
 
-    function selectCategory(cat) {
-        currentCategory = cat;
-        renderCategoryTabs();
-        renderGallery();
+    function toggleTheme() {
+        isLightMode = !isLightMode;
+        localStorage.setItem('ggfcTheme', isLightMode ? 'light' : 'dark');
+        applyTheme();
     }
 
-    function switchView(viewId) {
+    /* === 플로팅/뷰 제어 관련 함수 === */
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function switchView(viewId, isBacking = false) {
+        if (!isBacking && viewHistory[viewHistory.length - 1] !== viewId) {
+            viewHistory.push(viewId);
+        }
+        document.getElementById('fabBack').style.display = viewHistory.length > 1 ? 'flex' : 'none';
+
         document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
         document.getElementById(viewId).classList.add('active');
         document.querySelectorAll('.pc-nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -518,6 +634,84 @@
         else if (viewId === 'bestView') loadBestData();
         else if (viewId === 'statsView') loadStatsData();
         else if (viewId === 'periodListView') loadPeriods();
+
+        window.scrollTo(0, 0); 
+    }
+
+    function goBack() {
+        if (viewHistory.length > 1) {
+            viewHistory.pop(); 
+            const prevView = viewHistory[viewHistory.length - 1];
+            switchView(prevView, true);
+        }
+    }
+
+    /* === 공통 분할 렌더링 헬퍼 함수 === */
+    
+    // 1. 카테고리별 그룹화 및 랭킹 렌더링 함수
+    function groupByCategoryAndRender(dataArray, targetDivId, limit = null) {
+        const cats = {};
+        dataArray.forEach(d => {
+            let c = d.category || "기타";
+            if (!CATEGORIES.includes(c)) c = "기타";
+            if (!cats[c]) cats[c] = [];
+            cats[c].push(d);
+        });
+        
+        let html = "";
+        // 정해진 카테고리 순서대로 렌더링 (전체 제외)
+        CATEGORIES.slice(1).forEach(cat => {
+            if(cats[cat] && cats[cat].length > 0) {
+                let sorted = cats[cat].sort((a, b) => b.votes - a.votes);
+                if (limit) sorted = sorted.slice(0, limit);
+                
+                html += `<div style="margin: 15px 0 10px 0; color:var(--primary); font-weight:bold; font-size:15px;">🏆 ${cat} 랭킹</div>`;
+                let rank = 1;
+                sorted.forEach(d => {
+                    // 기존 createListItemHtml가 문서를 기대하므로 래퍼(dummy) 객체 생성
+                    const dummyDoc = { id: d.id, data: () => d };
+                    html += createListItemHtml(dummyDoc, rank++);
+                });
+            }
+        });
+        
+        if (!html) html = '<p style="text-align:center;color:#666; margin-top:30px;">데이터가 없습니다.</p>';
+        document.getElementById(targetDivId).innerHTML = html;
+    }
+
+    // 2. 최신 등록순 렌더링 함수
+    function renderRecentList(dataArray, targetDivId) {
+        let sorted = [...dataArray].sort((a, b) => {
+            let tA = a.timestamp ? (a.timestamp.toMillis ? a.timestamp.toMillis() : 0) : 0;
+            let tB = b.timestamp ? (b.timestamp.toMillis ? b.timestamp.toMillis() : 0) : 0;
+            return tB - tA;
+        });
+        
+        let html = "";
+        sorted.forEach(d => {
+            const dummyDoc = { id: d.id, data: () => d };
+            html += createListItemHtml(dummyDoc, null); // 랭크 뱃지 미표시
+        });
+        
+        if (!html) html = '<p style="text-align:center;color:#666; margin-top:30px;">데이터가 없습니다.</p>';
+        document.getElementById(targetDivId).innerHTML = html;
+    }
+
+    /* === 기존 로직 === */
+    function renderCategoryTabs() {
+        const tabContainer = document.getElementById('categoryTabs');
+        let html = '';
+        CATEGORIES.forEach(cat => {
+            const activeClass = cat === currentCategory ? 'active' : '';
+            html += `<button class="tab-btn ${activeClass}" onclick="selectCategory('${cat}')">${cat}</button>`;
+        });
+        tabContainer.innerHTML = html;
+    }
+
+    function selectCategory(cat) {
+        currentCategory = cat;
+        renderCategoryTabs();
+        renderGallery();
     }
 
     function toggleAdminMode() {
@@ -548,8 +742,10 @@
                 alert("비밀번호가 올바르지 않습니다.");
             }
         }
+        
         if(document.getElementById('galleryView').classList.contains('active')) renderGallery();
         if(document.getElementById('periodDetailView').classList.contains('active')) renderPeriodGallery();
+        if(document.getElementById('periodListView').classList.contains('active')) loadPeriods(); 
     }
 
     function toggleSelect(id) {
@@ -659,15 +855,72 @@
         });
     }
 
+    function openEditPeriodPopup(id, title, start, end) {
+        currentEditingPeriodId = id;
+        document.getElementById('editPeriodTitle').value = title;
+        document.getElementById('editPeriodStart').value = start;
+        document.getElementById('editPeriodEnd').value = end;
+        
+        document.getElementById('createPeriodForm').style.display = 'none';
+        const editForm = document.getElementById('editPeriodForm');
+        editForm.style.display = 'block';
+        editForm.classList.add('show');
+        window.scrollTo(0, 0); 
+    }
+
+    function closeEditPeriodPopup() {
+        document.getElementById('editPeriodForm').style.display = 'none';
+        currentEditingPeriodId = null;
+    }
+
+    function submitEditPeriod() {
+        if(!currentEditingPeriodId) return;
+        const title = document.getElementById('editPeriodTitle').value;
+        const start = document.getElementById('editPeriodStart').value;
+        const end = document.getElementById('editPeriodEnd').value;
+
+        if(!title || !start || !end) return alert("모든 항목을 입력해주세요.");
+
+        db.collection(periodCollection).doc(currentEditingPeriodId).update({
+            title: title, startDate: start, endDate: end
+        }).then(() => {
+            alert("기간 정보가 수정되었습니다.");
+            closeEditPeriodPopup();
+        }).catch(e => alert("수정 실패: " + e.message));
+    }
+
+    function deletePeriod(id) {
+        if(confirm("정말 이 기간(시즌)을 삭제하시겠습니까? (연결된 영상은 삭제되지 않지만 갤러리 집계에서 제외됩니다)")) {
+            db.collection(periodCollection).doc(id).delete().then(() => {
+                alert("삭제되었습니다.");
+            }).catch(e => alert("삭제 실패: " + e.message));
+        }
+    }
+
     function loadPeriods() {
         const listDiv = document.getElementById('periodCardList');
+        if (periodUnsubscribe) periodUnsubscribe(); 
+
         periodUnsubscribe = db.collection(periodCollection).orderBy("timestamp", "desc").onSnapshot(snapshot => {
             if(snapshot.empty) { listDiv.innerHTML = '<p style="text-align:center; color:#666; width:100%;">생성된 기간이 없습니다.</p>'; return; }
             let html = "";
             snapshot.forEach(doc => {
                 const d = doc.data();
+                
+                let adminControls = "";
+                if (isAdminMode) {
+                    const safeTitle = d.title.replace(/'/g, "\\'");
+                    adminControls = `
+                        <div class="period-admin-controls" onclick="event.stopPropagation()">
+                            <button class="period-btn-sm btn-edit" onclick="openEditPeriodPopup('${doc.id}', '${safeTitle}', '${d.startDate}', '${d.endDate}')"><i class="fas fa-edit"></i> 수정</button>
+                            <button class="period-btn-sm btn-del" onclick="deletePeriod('${doc.id}')"><i class="fas fa-trash"></i> 삭제</button>
+                        </div>
+                    `;
+                }
+
                 html += `
                     <div class="period-card" onclick="openPeriod('${d.title}', '${d.startDate}', '${d.endDate}')">
+                        ${adminControls}
                         <div class="period-title">${d.title}</div>
                         <div class="period-date"><i class="far fa-calendar-alt"></i> ${d.startDate} ~ ${d.endDate}</div>
                         <i class="fas fa-chevron-right" style="position:absolute; right:20px; top:50%; transform:translateY(-50%); color:#555;"></i>
@@ -679,7 +932,7 @@
     }
 
     function openPeriod(title, start, end) {
-        document.getElementById('periodDetailTitle').innerText = title + " 랭킹";
+        document.getElementById('periodDetailTitle').innerText = title + " 갤러리";
         document.getElementById('periodDetailDate').innerText = `기간: ${start} ~ ${end}`;
         currentPeriodDates.start = start; 
         currentPeriodDates.end = end;
@@ -687,24 +940,19 @@
         switchView('periodDetailView');
     }
 
+    /* === 기간별 갤러리 렌더링 (카테고리별 분할) === */
     function renderPeriodGallery() {
-        const listDiv = document.getElementById('periodVideoList');
         let filtered = rawGalleryData.map(doc => ({id: doc.id, ...doc.data()}))
         .filter(d => {
             if(!d.videoDate) return false; 
             return d.videoDate >= currentPeriodDates.start && d.videoDate <= currentPeriodDates.end;
         });
 
-        filtered.sort((a, b) => b.votes - a.votes);
-        if(filtered.length === 0) { listDiv.innerHTML = '<p style="text-align:center;color:#666; margin-top:30px;">해당 기간에 해당하는 영상(영상 날짜 기준)이 없습니다.</p>'; return; }
-
-        let html = "";
-        let rank = 1;
-        filtered.forEach(d => {
-            const dummyDoc = { id: d.id, data: () => d };
-            html += createListItemHtml(dummyDoc, rank++);
-        });
-        listDiv.innerHTML = html;
+        // 좌측(랭킹)은 카테고리별 그룹화 + Top 5 (limit 5)
+        groupByCategoryAndRender(filtered, 'periodRankingList', 5);
+        
+        // 우측(최신순)은 전체를 최신순으로
+        renderRecentList(filtered, 'periodRecentList');
     }
 
     function createListItemHtml(doc, rank = null) {
@@ -717,7 +965,7 @@
         
         let regDateStr = "";
         if(d.timestamp) {
-            const date = d.timestamp.toDate();
+            const date = (typeof d.timestamp.toDate === 'function') ? d.timestamp.toDate() : new Date(d.timestamp);
             regDateStr = `${date.getFullYear().toString().slice(2)}.${String(date.getMonth()+1).padStart(2,'0')}.${String(date.getDate()).padStart(2,'0')}`;
         }
         const videoDateStr = d.videoDate || "미상";
@@ -748,7 +996,6 @@
             `;
         }
 
-        /* [수정 2] 구조 변경: 날짜 정보를 우측 그룹으로 이동, 텍스트 크기 조정 */
         return `
             <div class="list-item ${selectedClass}" onclick="window.open('${d.watchUrl}', '_blank')">
                 ${checkboxHtml}
@@ -767,7 +1014,7 @@
                 <div class="list-right-group">
                     <div class="date-info-compact">
                         <span>🎬 ${videoDateStr}</span>
-                        <span style="color:#444;">📝 ${regDateStr}</span>
+                        <span style="color:var(--text-sub);">📝 ${regDateStr}</span>
                     </div>
                     <div class="list-actions" style="margin-left:0; gap:5px;">
                         <button id="btn-${id}" class="${btnClass}" ${onClickVote}>
@@ -786,18 +1033,17 @@
             snapshot.forEach(doc => rawGalleryData.push(doc));
             if(document.getElementById('galleryView').classList.contains('active')) renderGallery();
             if(document.getElementById('periodDetailView').classList.contains('active')) renderPeriodGallery();
+            if(document.getElementById('statsView').classList.contains('active')) loadStatsData();
         });
     }
 
+    /* === 전체 갤러리 렌더링 (카테고리별 분할) === */
     function renderGallery() {
-        const listDiv = document.getElementById('galleryList');
-        if(rawGalleryData.length === 0) { listDiv.innerHTML = '<p style="text-align:center;color:#666; margin-top:30px;">등록된 영상이 없습니다.</p>'; return; }
-
         const startDateVal = document.getElementById('filterStartDate').value;
         const endDateVal = document.getElementById('filterEndDate').value;
 
-        currentFilteredData = rawGalleryData.filter(doc => {
-            const d = doc.data();
+        // 원본 데이터를 기본 오브젝트 형태로 변환 및 필터링
+        const mappedFilteredData = rawGalleryData.map(doc => ({id: doc.id, ...doc.data()})).filter(d => {
             if (currentCategory !== "전체" && d.category !== currentCategory) {
                  if(currentCategory === "기타" && CATEGORIES.includes(d.category)) return false; 
                  if(currentCategory !== "기타" && d.category !== currentCategory) return false;
@@ -817,11 +1063,13 @@
             return true;
         });
 
-        if (currentFilteredData.length === 0) { listDiv.innerHTML = `<p style="text-align:center;color:#666; margin-top:30px;">결과가 없습니다.</p>`; return; }
-        
-        let html = "";
-        currentFilteredData.forEach(doc => html += createListItemHtml(doc));
-        listDiv.innerHTML = html;
+        // 탭 선택(currentCategory)이 '전체'가 아니라면 해당 카테고리만 그룹핑되어 나올 것임
+        // 전체 갤러리는 리밋(limit) 없이 모두 노출
+        groupByCategoryAndRender(mappedFilteredData, 'galleryRankingList', null);
+        renderRecentList(mappedFilteredData, 'galleryRecentList');
+
+        // 필터링 적용된 상태이므로 체크박스(관리자용)도 업데이트 동기화 위함
+        currentFilteredData = rawGalleryData.filter(doc => mappedFilteredData.some(m => m.id === doc.id));
     }
 
     function loadBestData() {
@@ -848,33 +1096,53 @@
         });
     }
 
+    /* === 통계 렌더링 (기간 지정 적용) === */
     function loadStatsData() {
         if (catChartInstance) catChartInstance.destroy();
         if (uploaderChartInstance) uploaderChartInstance.destroy();
-        db.collection(collectionName).get().then((snapshot) => {
-            const catCounts = {}; const uploaderCounts = {}; let total = 0;
-            CATEGORIES.slice(1).forEach(c => catCounts[c] = 0);
-            snapshot.forEach(doc => {
-                const d = doc.data();
-                const c = d.category && catCounts.hasOwnProperty(d.category) ? d.category : "기타";
-                if(!catCounts[c]) catCounts[c] = 0; catCounts[c]++;
-                const u = d.userName || "익명"; uploaderCounts[u] = (uploaderCounts[u] || 0) + 1; total++;
+        
+        const startDateVal = document.getElementById('statsStartDate').value;
+        const endDateVal = document.getElementById('statsEndDate').value;
+
+        // DB를 다시 호출하지 않고 이미 로드된 rawGalleryData 활용 (효율성)
+        let statsData = rawGalleryData.map(doc => doc.data());
+
+        // 날짜 필터링 적용
+        if (startDateVal || endDateVal) {
+            statsData = statsData.filter(d => {
+                if(!d.videoDate) return false;
+                if(startDateVal && d.videoDate < startDateVal) return false;
+                if(endDateVal && d.videoDate > endDateVal) return false;
+                return true;
             });
-            document.getElementById('totalCount').innerText = `총 등록수: ${total}`;
-            Chart.defaults.color = '#ccc'; Chart.defaults.borderColor = '#444';
-            const cLabels = Object.keys(catCounts).filter(k => catCounts[k] > 0);
-            const cVals = cLabels.map(k => catCounts[k]);
-            catChartInstance = new Chart(document.getElementById('categoryChart'), {
-                type: 'doughnut',
-                data: { labels: cLabels, datasets: [{ data: cVals, backgroundColor: ['#3b82f6','#ef4444','#f59e0b','#10b981','#8b5cf6','#ec4899','#6366f1','#9ca3af'], borderWidth:0 }] },
-                options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'right'} } }
-            });
-            const sortedUp = Object.entries(uploaderCounts).sort((a,b)=>b[1]-a[1]).slice(0,10);
-            uploaderChartInstance = new Chart(document.getElementById('uploaderChart'), {
-                type: 'bar',
-                data: { labels: sortedUp.map(i=>i[0]), datasets: [{ label:'등록수', data: sortedUp.map(i=>i[1]), backgroundColor:'#3b82f6', borderRadius:4 }] },
-                options: { responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{grid:{color:'#333'}}, y:{grid:{display:false}}} }
-            });
+        }
+
+        const catCounts = {}; const uploaderCounts = {}; let total = 0;
+        CATEGORIES.slice(1).forEach(c => catCounts[c] = 0);
+        
+        statsData.forEach(d => {
+            const c = d.category && catCounts.hasOwnProperty(d.category) ? d.category : "기타";
+            if(!catCounts[c]) catCounts[c] = 0; catCounts[c]++;
+            const u = d.userName || "익명"; uploaderCounts[u] = (uploaderCounts[u] || 0) + 1; total++;
+        });
+
+        document.getElementById('totalCount').innerText = `총 등록수: ${total}`;
+        Chart.defaults.color = '#ccc'; Chart.defaults.borderColor = '#444';
+        
+        const cLabels = Object.keys(catCounts).filter(k => catCounts[k] > 0);
+        const cVals = cLabels.map(k => catCounts[k]);
+        
+        catChartInstance = new Chart(document.getElementById('categoryChart'), {
+            type: 'doughnut',
+            data: { labels: cLabels, datasets: [{ data: cVals, backgroundColor: ['#3b82f6','#ef4444','#f59e0b','#10b981','#8b5cf6','#ec4899','#6366f1','#9ca3af'], borderWidth:0 }] },
+            options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'right'} } }
+        });
+        
+        const sortedUp = Object.entries(uploaderCounts).sort((a,b)=>b[1]-a[1]).slice(0,10);
+        uploaderChartInstance = new Chart(document.getElementById('uploaderChart'), {
+            type: 'bar',
+            data: { labels: sortedUp.map(i=>i[0]), datasets: [{ label:'등록수', data: sortedUp.map(i=>i[1]), backgroundColor:'#3b82f6', borderRadius:4 }] },
+            options: { responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{grid:{color:'#333'}}, y:{grid:{display:false}}} }
         });
     }
 
